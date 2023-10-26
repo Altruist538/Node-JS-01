@@ -1,0 +1,15 @@
+{
+  "name": "nodejs01",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev:nodmon": "nodemon index.js",
+    "start:node": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
