@@ -8,7 +8,6 @@ async function listContacts() {
   const data = await fs.readFile(contactsPath, "utf-8");
   return JSON.parse(data);
 }
-// listContacts().then((data) => console.log(data));
 async function getContactById(contactId) {
   const contacts = await listContacts();
   const contact = contacts.find((cont) => cont.id === contactId);
@@ -17,7 +16,6 @@ async function getContactById(contactId) {
   } else {
     return contact;
   }
-  // ...твой код. Возвращает объект контакта с таким id. Возвращает null, если объект с таким id не найден.
 }
 function writeContacts(contacts) {
   return fs.writeFile(contactsPath, JSON.stringify(contacts, undefined, 2));
@@ -25,17 +23,30 @@ function writeContacts(contacts) {
 async function removeContact(contactId) {
   const contacts = await listContacts();
   const contact = contacts.find((cont) => cont.id === contactId);
-  const contactNew = contacts.filter((cont) => cont.id !== contactId);
-  await writeContacts(contactNew);
+  const contactsNew = contacts.filter((cont) => cont.id !== contactId);
+  await writeContacts(contactsNew);
   if (!contact) {
     return null;
   } else {
     return contact;
   }
-  // ...твой код. Возвращает объект удаленного контакта. Возвращает null, если объект с таким id не найден.
 }
 
-function addContact(name, email, phone) {
-  // ...твой код. Возвращает объект добавленного контакта.
+async function addContact(name, email, phone) {
+  const contacts = await listContacts();
+  const newContact = {
+    id: crypto.randomUUID(),
+    name: name,
+    email: email,
+    phone: phone,
+  };
+  contacts.push(newContact);
+  await writeContacts(contacts);
+  return newContact;
 }
-module.exports = { listContacts, getContactById, writeContacts, addContact };
+module.exports = {
+  listContacts,
+  getContactById,
+  addContact,
+  removeContact,
+};
